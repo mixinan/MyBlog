@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="正在加载内容..."
                 android:padding="8dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
             <LinearLayout
                 android:layout_marginTop="8dp"

@@ -1,23 +1,14 @@
 package cc.guoxingnan.myblog;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import java.io.IOException;
-
-public class BlogDetailActivity extends AppCompatActivity {
-    public static final String TAG = "Test";
+public class BlogDetailActivity extends AppCompatActivity implements View.OnClickListener{
+    private BlogDetailModule module;
 
     private TextView tvTitle;
     private TextView tvContent;
@@ -26,13 +17,9 @@ public class BlogDetailActivity extends AppCompatActivity {
 
     private String url;
     private int position;
-    private String title;
-    private String text;
-    private String newerTitle;
-    private String olderTitle;
 
-    BroadcastReceiver receiver;
-
+    private String olderPath;
+    private String newerPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,40 +29,18 @@ public class BlogDetailActivity extends AppCompatActivity {
         url = getIntent().getExtras().getString("url", "unknow");
         position = getIntent().getExtras().getInt("position",-1);
 
-        Log.i("Test", "onCreate: url--" + url);
-        Log.i("Test", "onCreate: position--" + position);
-        new InnerThread().start();
-
         initView();
+        initData(url,position);
+        setListener();
+    }
 
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Bundle bundle = intent.getExtras();
-                title = bundle.getString("title");
-                text = bundle.getString("text");
-                newerTitle = bundle.getString("newerTitle");
-                olderTitle = bundle.getString("olderTitle");
-                Log.i(TAG, "onReceive: "+ title + "\n" +text);
-            }
-        };
+    private void setListener() {
+        btNewer.setOnClickListener(this);
+        btOlder.setOnClickListener(this);
+    }
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("GetData");
-        registerReceiver(receiver, filter);
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tvTitle.setText(title);
-                tvContent.setText(text);
-                btNewer.setText(newerTitle);
-                btOlder.setText(olderTitle);
-            }
-        },1288);
-
-
+    private void initData(String url, int position) {
+        module = new BlogDetailModule(this, url, position);
     }
 
     private void initView() {
@@ -85,71 +50,30 @@ public class BlogDetailActivity extends AppCompatActivity {
         btOlder = (Button) findViewById(R.id.bt_older);
     }
 
+    public void showData(String title, String text, String newerTitle, String newerPath, String olderTitle, String olderPath) {
+        this.newerPath = newerPath;
+        this.olderPath = olderPath;
 
-    private class InnerThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            try {
-                Document doc = Jsoup.connect(url).get();
-//			System.out.println(doc);
-
-                /**-------标题-------*/
-                final String title = doc.getElementsByTag("title").first().text();
-//			System.out.println(title);
-
-                /**-------正文-------*/
-                final String text = doc.getElementsByClass("post-content").first().text();
-//			System.out.println(text);
-
-
-                /**-------上一篇，下一篇(标题，链接)-------*/
-                String olderTitle = doc.select("a.post-nav-older").first().attr("title");
-                olderTitle = olderTitle.replaceAll("Previous post", "上一篇");
-                String olderPath = doc.select("a.post-nav-older").first().attr("href");
-
-                String newerTitle = "";
-                String newerPath = "";
-                if(position == 0){
-                    newerTitle = "没有了";
-                }else {
-                    newerTitle = doc.select("a.post-nav-newer").first().attr("title");
-                    newerTitle = newerTitle.replaceAll("Next post", "下一篇");
-                    newerPath = doc.select("a.post-nav-newer").first().attr("href");
-                }
-//			System.out.println(newerTitle);
-//			System.out.println(newerTitle);
-//			System.out.println(olderTitle);
-//			System.out.println(newerPath);
-//			System.out.println(olderPath);
-
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        tvTitle.setText(title);
-//                        tvContent.setText(text);
-//                    }
-//                });
-
-                Intent intent = new Intent();
-                intent.setAction("GetData");
-                intent.putExtra("title", title);
-                intent.putExtra("text", text);
-                intent.putExtra("newerTitle", newerTitle);
-                intent.putExtra("newerPath", newerPath);
-                intent.putExtra("olderTitle", olderTitle);
-                intent.putExtra("olderPath", olderPath);
-                sendBroadcast(intent);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        tvTitle.setText(title);
+        tvContent.setText(text);
+        btNewer.setText(newerTitle);
+        btOlder.setText(olderTitle);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(receiver);
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bt_newer:
+                if (btNewer.getText().equals("没有了")){
+                    Toast.makeText(this,"已经是第一篇了",Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                initData(newerPath, position-1);
+                break;
+
+            case R.id.bt_older:
+                initData(olderPath, position+1);
+                break;
+        }
     }
 }

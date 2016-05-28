@@ -1,7 +1,6 @@
 package cc.guoxingnan.myblog;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -40,7 +39,7 @@ public class BlogAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item,null);
+            convertView = View.inflate(mContext,R.layout.item,null);
             holder = new ViewHolder();
             holder.title = (TextView) convertView.findViewById(R.id.tv_title);
             holder.time = (TextView) convertView.findViewById(R.id.tv_time);
