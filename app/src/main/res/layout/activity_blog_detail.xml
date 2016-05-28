@@ -21,6 +21,7 @@
         android:background="#38000000" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

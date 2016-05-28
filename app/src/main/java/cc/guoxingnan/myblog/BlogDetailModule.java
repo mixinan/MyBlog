@@ -18,15 +18,15 @@ public class BlogDetailModule {
     private int position;
     private String[] data;
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 2:
                     data = (String[]) msg.obj;
-                    BlogDetailActivity activity = (BlogDetailActivity)context;
-                    activity.showData(data[0],data[1],data[2],data[3],data[4],data[5]);
+                    BlogDetailActivity activity = (BlogDetailActivity) context;
+                    activity.showData(data[0], data[1], data[2], data[3], data[4], data[5]);
                     break;
             }
         }
@@ -60,21 +60,28 @@ public class BlogDetailModule {
 
 
                 /**-------上一篇，下一篇(标题，链接)-------*/
-                String olderTitle = doc.select("a.post-nav-older").first().attr("title");
-                olderTitle = olderTitle.replaceAll("Previous post", "上一篇");
-                String olderPath = doc.select("a.post-nav-older").first().attr("href");
+                String olderTitle = "";
+                String olderPath = "";
+                if ("http://guoxingnan.cc/the_way_to_nanjing/".equals(url)) {
+                    olderTitle = "没有了";
+                } else {
+                    olderTitle = doc.select("a.post-nav-older").first().attr("title");
+                    olderTitle = olderTitle.replaceAll("Previous post", "上一篇");
+                    olderPath = doc.select("a.post-nav-older").first().attr("href");
+                }
+
 
                 String newerTitle = "";
                 String newerPath = "";
-                if(position == 0){
+                if (position == 0) {
                     newerTitle = "没有了";
-                }else {
+                } else {
                     newerTitle = doc.select("a.post-nav-newer").first().attr("title");
                     newerTitle = newerTitle.replaceAll("Next post", "下一篇");
                     newerPath = doc.select("a.post-nav-newer").first().attr("href");
                 }
 
-                String[] data = {title,text,newerTitle,newerPath,olderTitle,olderPath};
+                String[] data = {title, text, newerTitle, newerPath, olderTitle, olderPath};
 
                 Message message = Message.obtain();
                 message.what = 2;
