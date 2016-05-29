@@ -54,6 +54,8 @@ public class BlogDetailModule {
 
                 /**-------标题-------*/
                 String title = doc.getElementsByTag("title").first().text();
+                //移动客户端|万码千钧
+                title = title.substring(0,title.indexOf('|'));
 //			System.out.println(title);
 
                 /**-------正文-------*/
