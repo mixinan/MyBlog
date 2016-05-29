@@ -74,9 +74,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         String adTitle = blogs.get(1).getTitle();
 
         if (!"广告".equals(adTitle) && !"关于".equals(adTitle)) {
-            adapter.addData(1, new Blog("广告", "2016-05-29", "这是一个广告位", "http://guoxingnan.cc/save-money/"));
+            adapter.addData(1, new Blog("广告", "2016-05-29", "广告位,待续", "http://guoxingnan.cc/ads/"));
         }else if ("广告".equals(adTitle)){
-            adapter.addData(1, new Blog("关于", "2016-05-29", "这是一个介绍页面", "http://guoxingnan.cc/about_lizhi_fm/"));
+            adapter.addData(1, new Blog("关于", "2016-05-29", "这是一个介绍页面", "http://guoxingnan.cc/about_app/"));
             adapter.removeData(2);
         }else if ("关于".equals(adTitle)){
             adapter.removeData(1);

@@ -60,8 +60,9 @@ public class BlogDetailModule {
 
                 /**-------正文-------*/
                 String text = doc.getElementsByClass("post-content").first().text();
-//			System.out.println(text);
-
+                //本来没有换行，把“-”替换为换行符
+                text = text.replaceAll("-","\n\n");
+//                Log.i("Test", "text分段: " + text);
 
                 /**-------上一篇，下一篇(标题，链接)-------*/
                 String olderTitle = "";
