@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void setMyAdapter(ArrayList<Blog> blogs) {
         this.blogs = blogs;
 
-//        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -72,14 +71,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        String firstItemTitle = blogs.get(0).getTitle();
-        String secondItemTitle = blogs.get(1).getTitle();
+        String adTitle = blogs.get(1).getTitle();
 
-        if (!"广告".equals(secondItemTitle) && !"关于".equals(secondItemTitle)) {
+        if (!"广告".equals(adTitle) && !"关于".equals(adTitle)) {
             adapter.addData(1, new Blog("广告", "2016-05-29", "这是一个广告位", "http://guoxingnan.cc/save-money/"));
-        }else if ("广告".equals(secondItemTitle)){
+        }else if ("广告".equals(adTitle)){
             adapter.addData(1, new Blog("关于", "2016-05-29", "这是一个介绍页面", "http://guoxingnan.cc/about_lizhi_fm/"));
-        }else if ("关于".equals(secondItemTitle)){
+            adapter.removeData(2);
+        }else if ("关于".equals(adTitle)){
             adapter.removeData(1);
         }
         refreshLayout.setRefreshing(false);
