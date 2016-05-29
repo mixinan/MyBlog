@@ -6,10 +6,9 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
     app:cardBackgroundColor="@color/cardview_light_background"
-    android:layout_margin="12dp"
     app:cardElevation="2dp"
-    app:cardMaxElevation="3dp"
-    android:layout_marginTop="5dp">
+    android:layout_margin="15dp"
+    app:cardMaxElevation="5dp">
 
 
     <LinearLayout

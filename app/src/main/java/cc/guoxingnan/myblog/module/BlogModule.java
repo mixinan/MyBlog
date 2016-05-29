@@ -1,4 +1,4 @@
-package cc.guoxingnan.myblog;
+package cc.guoxingnan.myblog.module;
 
 import android.content.Context;
 import android.os.Handler;
@@ -11,6 +11,9 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import cc.guoxingnan.myblog.entity.Blog;
+import cc.guoxingnan.myblog.ui.MainActivity;
 
 /**
  * Created by mixinan on 2016/5/28.

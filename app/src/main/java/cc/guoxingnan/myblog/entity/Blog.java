@@ -1,4 +1,4 @@
-package cc.guoxingnan.myblog;
+package cc.guoxingnan.myblog.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;

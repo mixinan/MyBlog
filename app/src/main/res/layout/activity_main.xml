@@ -3,12 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cc.guoxingnan.myblog.MainActivity">
+    tools:context=".ui.MainActivity">
 
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:scrollbarStyle="outsideOverlay"
-        android:id="@+id/lv" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarStyle="outsideOverlay" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

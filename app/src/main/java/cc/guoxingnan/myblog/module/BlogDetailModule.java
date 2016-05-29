@@ -1,4 +1,4 @@
-package cc.guoxingnan.myblog;
+package cc.guoxingnan.myblog.module;
 
 import android.content.Context;
 import android.os.Handler;
@@ -8,6 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+
+import cc.guoxingnan.myblog.ui.BlogDetailActivity;
 
 /**
  * Created by mixinan on 2016/5/28.
