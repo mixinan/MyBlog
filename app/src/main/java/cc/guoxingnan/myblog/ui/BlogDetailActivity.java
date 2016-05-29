@@ -83,11 +83,12 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_newer:
-                if (btNewer.getText().equals("没有了")) {
-                    Toast.makeText(this, "已经是最新一篇了", Toast.LENGTH_SHORT).show();
+                if (btNewer.getText().equals("首页")) {
+                    finish();
+//                    Toast.makeText(this, "已经是最新一篇了", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                initData(newerPath, position - 1);
+                initData(newerPath, position -- );
                 scrollToTop();
                 break;
 

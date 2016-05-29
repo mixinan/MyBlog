@@ -75,8 +75,8 @@ public class BlogDetailModule {
 
                 String newerTitle = "";
                 String newerPath = "";
-                if (position == 0) {
-                    newerTitle = "没有了";
+                if (position <= 1) {
+                    newerTitle = "首页";
                 } else {
                     newerTitle = doc.select("a.post-nav-newer").first().attr("title");
                     newerTitle = newerTitle.replaceAll("Next post", "下一篇");
