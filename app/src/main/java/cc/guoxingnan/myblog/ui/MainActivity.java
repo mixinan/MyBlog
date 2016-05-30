@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -71,16 +72,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        String adTitle = blogs.get(1).getTitle();
+        if (blogs == null){
+            Toast.makeText(this,"没网，再好的内容也出不来...",Toast.LENGTH_SHORT).show();
+        }else{
+            String adTitle = blogs.get(1).getTitle();
 
-        if (!"广告".equals(adTitle) && !"关于".equals(adTitle)) {
-            adapter.addData(1, new Blog("广告", "2016-05-29", "广告位,待续", "http://guoxingnan.cc/ads/"));
-        }else if ("广告".equals(adTitle)){
-            adapter.addData(1, new Blog("关于", "2016-05-29", "这是一个介绍页面", "http://guoxingnan.cc/about_app/"));
-            adapter.removeData(2);
-        }else if ("关于".equals(adTitle)){
-            adapter.removeData(1);
+            if (!"广告".equals(adTitle) && !"关于".equals(adTitle)) {
+                adapter.addData(1, new Blog("广告", "2016-05-29", "广告位,待续", "http://guoxingnan.cc/ads/"));
+            }else if ("广告".equals(adTitle)){
+                adapter.addData(1, new Blog("关于", "2016-05-29", "这是一个介绍页面", "http://guoxingnan.cc/about_app/"));
+                adapter.removeData(2);
+            }else if ("关于".equals(adTitle)){
+                adapter.removeData(1);
+            }
         }
+
         refreshLayout.setRefreshing(false);
     }
 }

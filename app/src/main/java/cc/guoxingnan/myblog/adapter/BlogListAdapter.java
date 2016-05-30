@@ -26,6 +26,7 @@ public class BlogListAdapter extends RecyclerView.Adapter<BlogListAdapter.MyView
         this.data = data;
     }
 
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item,null);
@@ -55,7 +56,7 @@ public class BlogListAdapter extends RecyclerView.Adapter<BlogListAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data == null ? 0 : data.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
