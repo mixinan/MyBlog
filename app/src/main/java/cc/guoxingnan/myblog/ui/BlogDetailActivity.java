@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.module.BlogDetailModule;
+import cc.guoxingnan.myblog.util.ToastUtil;
 
 public class BlogDetailActivity extends AppCompatActivity implements View.OnClickListener, OnRefreshListener {
     private BlogDetailModule module;
@@ -85,7 +85,6 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
             case R.id.bt_newer:
                 if (btNewer.getText().equals("首页")) {
                     finish();
-//                    Toast.makeText(this, "已经是最新一篇了", Toast.LENGTH_SHORT).show();
                     break;
                 }
                 initData(newerPath, position -- );
@@ -95,7 +94,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
             case R.id.bt_older:
                 if (btOlder.getText().equals("没有了")) {
-                    Toast.makeText(this, "已经是最早一篇了", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(this, "已经是最后一篇了，年轻人，不要太贪啊！");
                     break;
                 }
                 initData(olderPath, position + 1);
@@ -122,8 +121,8 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onRefresh() {
-        if (btOlder.getText().equals("没有了")) {
-            Toast.makeText(this, "已经是最早一篇了", Toast.LENGTH_SHORT).show();
+        if ("去南京路上".equals(tvTitle.getText().toString().trim())) {
+            ToastUtil.showToast(this, "年轻人，没数据了");
             refreshLayout.setRefreshing(false);
             return;
         }

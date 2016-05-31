@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -14,6 +13,7 @@ import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.adapter.BlogListAdapter;
 import cc.guoxingnan.myblog.entity.Blog;
 import cc.guoxingnan.myblog.module.BlogModule;
+import cc.guoxingnan.myblog.util.ToastUtil;
 import cc.guoxingnan.myblog.view.SpaceItemDecoration;
 import cc.guoxingnan.myblog.view.UpRefreshRecyclerView;
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onRefresh() {
 
         if (blogs == null) {
-            Toast.makeText(this, "没网，再好的内容也出不来...", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(this, "没网，再好的内容也出不来...");
         } else {
             String adTitle = blogs.get(1).getTitle();
 
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onUpRefresh() {
         if ("去南京路上".equals(blogs.get(blogs.size() - 1).getTitle())) {
-            Toast.makeText(this, "数据已经加载完毕", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(this, "数据已经加载完毕");
             return;
         }
         refreshLayout.setRefreshing(true);
