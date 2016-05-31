@@ -14,13 +14,14 @@ import java.util.ArrayList;
 
 import cc.guoxingnan.myblog.entity.Blog;
 import cc.guoxingnan.myblog.ui.MainActivity;
+import cc.guoxingnan.myblog.util.Constant;
 
 /**
  * Created by mixinan on 2016/5/28.
  */
 public class BlogModule {
-    private static String url = "http://guoxingnan.cc";
     private Context context;
+    private int currentPage;
     private ArrayList<Blog> blogs;
 
     private Handler handler = new Handler() {
@@ -30,9 +31,9 @@ public class BlogModule {
             switch (msg.what) {
                 case 1:
                     blogs = (ArrayList<Blog>) msg.obj;
-                    Log.i("Test", "getBlogsMain: blogs.size---" + blogs.size());
+                    Log.i("Test", "handler: blogs.size---" + blogs.size());
                     MainActivity activity = (MainActivity)context;
-                    activity.setMyAdapter(blogs);
+                    activity.getDataFromModule(blogs);
                     break;
             }
         }
@@ -43,11 +44,17 @@ public class BlogModule {
      * 在构造方法内，开启工作线程，去得到数据集合
      * @param context
      */
-    public BlogModule(Context context) {
+    public BlogModule(Context context, int currentPage) {
         this.context = context;
+        this.currentPage = currentPage;
         //获取数据
         Thread thread = new GetMainBlogsThread();
         thread.start();
+    }
+
+    public ArrayList<Blog> getBlogs(){
+        Log.i("Test", "module getBlogs: size--" + blogs.size());
+        return blogs;
     }
 
 
@@ -60,7 +67,7 @@ public class BlogModule {
             try {
                 ArrayList<Blog> blogs = new ArrayList<Blog>();
 
-                Document doc = Jsoup.connect(url).get();
+                Document doc = Jsoup.connect(Constant.BASE_URL + currentPage).get();
                 Elements e1s = doc.getElementsByClass("content-inner");
 
                 for (int i = 0; i < e1s.size(); i++) {
