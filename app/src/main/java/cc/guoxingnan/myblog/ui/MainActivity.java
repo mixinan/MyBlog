@@ -132,4 +132,30 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         currentPage++;
         initData(currentPage);
     }
+
+
+    /**
+     * 再按一次退出
+     */
+    private long lastBackTime;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - lastBackTime <= 1500){
+            finish();
+        }
+        lastBackTime = System.currentTimeMillis();
+        ToastUtil.showToast(this,"再按一次退出");
+    }
+
+
+    /**
+     * 关闭时，Toast瞬间消失
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ToastUtil.cancelToast();
+    }
+
 }

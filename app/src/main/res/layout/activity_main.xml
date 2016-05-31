@@ -14,6 +14,8 @@
             android:id="@+id/lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:scrollbarSize="@dimen/cardview_default_radius"
             android:scrollbarStyle="outsideOverlay" />
 
     </android.support.v4.widget.SwipeRefreshLayout>

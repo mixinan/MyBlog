@@ -20,4 +20,8 @@ public class ToastUtil {
         }
         toast.show();
     }
+
+    public static void cancelToast(){
+        toast.cancel();
+    }
 }
