@@ -5,13 +5,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
+    <TextView
+        android:id="@+id/tvNoNet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:gravity="center"
+        android:background="@drawable/tv_empty_bg_shape"
+        android:text="没有网络，点击重新加载  》"
+        android:textColor="#c0c0c0"
+        android:textSize="23sp"
+        android:visibility="gone"/>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvNoNet">
 
         <cc.guoxingnan.myblog.view.UpRefreshRecyclerView
             android:id="@+id/lv"
+            android:padding="3dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarSize="@dimen/cardview_default_radius"
@@ -20,31 +34,14 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <LinearLayout
-        android:id="@+id/emptyLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvEmpty"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:text="万码千钧\nBlog客户端"
             android:textColor="#88c0c0c0"
             android:textSize="50sp" />
 
-        <TextView
-            android:id="@+id/tvEmpty"
-            android:layout_width="wrap_content"
-            android:layout_height="88dp"
-            android:padding="12dp"
-            android:layout_marginTop="38dp"
-            android:gravity="center"
-            android:background="@drawable/tv_empty_bg_shape"
-            android:text="没有网络\n点击重新加载"
-            android:textColor="#88c0c0c0"
-            android:textSize="25sp"/>
-    </LinearLayout>
 </RelativeLayout>

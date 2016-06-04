@@ -1,5 +1,7 @@
 package cc.guoxingnan.myblog.ui;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import cc.guoxingnan.myblog.App;
 import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.module.BlogDetailModule;
+import cc.guoxingnan.myblog.util.NetBroadcastReceiver;
 import cc.guoxingnan.myblog.util.NetUtil;
 import cc.guoxingnan.myblog.util.ToastUtil;
 
@@ -21,6 +24,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
     private BlogDetailModule module;
 
+    private TextView tvNoNet;
     private TextView tvTitle;
     private TextView tvContent;
     private Button btNewer;
@@ -33,6 +37,8 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
     private String olderPath;
     private String newerPath;
+
+    private NetBroadcastReceiver receiver;
 
     private Handler handler = new Handler();
 
@@ -49,6 +55,8 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         initView();
         initData(url, position);
         setListener();
+
+        registerReceiver();
     }
 
     private void setListener() {
@@ -61,15 +69,15 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     private void initData(String url, int position) {
         if (!NetUtil.haveNet(this)) {
             ToastUtil.showToast(this, "没网了，请检查网络");
-            refreshLayout.setRefreshing(false);
+            stopRefreshing();
         } else {
-            refreshLayout.setRefreshing(true);
             module = new BlogDetailModule(this, url, position);
         }
     }
 
     private void initView() {
         tvTitle = (TextView) findViewById(R.id.tv_title);
+        tvNoNet = (TextView) findViewById(R.id.tvNoNet);
         tvContent = (TextView) findViewById(R.id.tv_content);
         btNewer = (Button) findViewById(R.id.bt_newer);
         btOlder = (Button) findViewById(R.id.bt_older);
@@ -87,7 +95,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         btNewer.setText(newerTitle);
         btOlder.setText(olderTitle);
         app.play_flush();
-        refreshLayout.setRefreshing(false);
+        stopRefreshing();
     }
 
     @Override
@@ -136,10 +144,47 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     public void onRefresh() {
         if ("去南京路上".equals(tvTitle.getText().toString().trim())) {
             ToastUtil.showToast(this, "年轻人，没数据了");
-            refreshLayout.setRefreshing(false);
+            stopRefreshing();
             return;
         }
         initData(olderPath, position + 1);
         scrollToTop();
+    }
+
+
+
+    /*
+    以下为广播相关代码
+     */
+
+    private void registerReceiver() {
+        receiver = new NetBroadcastReceiver(this, tvNoNet);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(receiver, filter);
+    }
+
+    private void unregisterReceiver() {
+        this.unregisterReceiver(receiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver();
+    }
+
+
+    /**
+     * 显示刷新动画
+     */
+    public void refreshing(){
+        refreshLayout.setRefreshing(true);
+    }
+
+    /**
+     * 取消刷新动画
+     */
+    public void stopRefreshing(){
+        refreshLayout.setRefreshing(false);
     }
 }
