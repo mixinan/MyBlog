@@ -10,11 +10,15 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import cc.guoxingnan.myblog.App;
 import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.module.BlogDetailModule;
+import cc.guoxingnan.myblog.util.NetUtil;
 import cc.guoxingnan.myblog.util.ToastUtil;
 
 public class BlogDetailActivity extends AppCompatActivity implements View.OnClickListener, OnRefreshListener {
+    private App app;
+
     private BlogDetailModule module;
 
     private TextView tvTitle;
@@ -37,6 +41,8 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_detail);
 
+        app = (App) getApplication();
+
         url = getIntent().getExtras().getString("url", "unknow");
         position = getIntent().getExtras().getInt("position", -1);
 
@@ -53,8 +59,13 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initData(String url, int position) {
-        refreshLayout.setRefreshing(true);
-        module = new BlogDetailModule(this, url, position);
+        if (!NetUtil.haveNet(this)) {
+            ToastUtil.showToast(this, "没网了，请检查网络");
+            refreshLayout.setRefreshing(false);
+        } else {
+            refreshLayout.setRefreshing(true);
+            module = new BlogDetailModule(this, url, position);
+        }
     }
 
     private void initView() {
@@ -75,7 +86,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         tvContent.setText(text);
         btNewer.setText(newerTitle);
         btOlder.setText(olderTitle);
-
+        app.play_flush();
         refreshLayout.setRefreshing(false);
     }
 
@@ -87,7 +98,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
                     finish();
                     break;
                 }
-                initData(newerPath, position -- );
+                initData(newerPath, position--);
                 scrollToTop();
                 break;
 
@@ -102,6 +113,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
                 break;
 
             case R.id.tv_title:
+                app.play_top();
                 scrollToTop();
                 break;
         }
@@ -118,6 +130,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
             }
         });
     }
+
 
     @Override
     public void onRefresh() {

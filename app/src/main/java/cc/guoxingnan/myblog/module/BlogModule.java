@@ -32,6 +32,7 @@ public class BlogModule {
                 case 1:
                     blogs = (ArrayList<Blog>) msg.obj;
                     Log.i("Test", "handler: blogs.size---" + blogs.size());
+                    //回调获取数据
                     MainActivity activity = (MainActivity)context;
                     activity.getDataFromModule(blogs);
                     break;
@@ -42,6 +43,7 @@ public class BlogModule {
     /**
      * 构造方法，传入调用者的上下文对象为参数，便于回调
      * 在构造方法内，开启工作线程，去得到数据集合
+     *
      * @param context
      */
     public BlogModule(Context context, int currentPage) {
@@ -50,11 +52,6 @@ public class BlogModule {
         //获取数据
         Thread thread = new GetMainBlogsThread();
         thread.start();
-    }
-
-    public ArrayList<Blog> getBlogs(){
-        Log.i("Test", "module getBlogs: size--" + blogs.size());
-        return blogs;
     }
 
 
