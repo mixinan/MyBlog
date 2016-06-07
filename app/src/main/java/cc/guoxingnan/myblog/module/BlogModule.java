@@ -1,8 +1,6 @@
 package cc.guoxingnan.myblog.module;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.jsoup.Jsoup;
@@ -11,98 +9,67 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import cc.guoxingnan.myblog.entity.Blog;
-import cc.guoxingnan.myblog.ui.MainActivity;
 import cc.guoxingnan.myblog.util.Constant;
 
 /**
  * Created by mixinan on 2016/5/28.
  */
 public class BlogModule {
-    private Context context;
-    private int currentPage;
-    private ArrayList<Blog> blogs;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    blogs = (ArrayList<Blog>) msg.obj;
-                    Log.i("Test", "handler: blogs.size---" + blogs.size());
-                    //回调获取数据
-                    MainActivity activity = (MainActivity)context;
-                    activity.getDataFromModule(blogs);
-                    break;
+    public void getBlogList(final Call_Back callback, final int currentPage) {
+
+        AsyncTask<Integer, Void, List<Blog>> task = new AsyncTask<Integer, Void, List<Blog>>() {
+
+            @Override
+            protected List<Blog> doInBackground(Integer... params) {
+                try {
+                    ArrayList<Blog> blogs = new ArrayList<Blog>();
+
+                    Document doc = Jsoup.connect(Constant.BASE_URL + currentPage).get();
+                    Elements e1s = doc.getElementsByClass("content-inner");
+
+                    for (int i = 0; i < e1s.size(); i++) {
+                        Elements h2 = e1s.get(i).getElementsByTag("h2");
+                        String path = h2.first().getElementsByTag("a").attr("href");
+                        String title = h2.first().getElementsByTag("a").text();
+
+                        Elements d1s = e1s.get(i).getElementsByClass("post-date");
+                        String time = d1s.first().text();
+
+                        Elements c1s = e1s.get(i).getElementsByClass("post-content");
+                        String content = c1s.first().text();
+
+                        Log.i("Test", "\n地址：" + path + "\n题目：" + title + "\n时间：" + time + "\n内容：" + content);
+
+                        Blog blog = new Blog();
+                        blog.setTitle(title);
+                        blog.setTime(time);
+                        blog.setContent(content);
+                        blog.setPath(path);
+
+                        //添加数据到集合
+                        blogs.add(blog);
+                    }
+                    return blogs;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
             }
-        }
-    };
 
-    /**
-     * 构造方法，传入调用者的上下文对象为参数，便于回调
-     * 在构造方法内，开启工作线程，去得到数据集合
-     *
-     * @param context
-     */
-    public BlogModule(Context context, int currentPage) {
-        this.context = context;
-        this.currentPage = currentPage;
-        //获取数据
-        Thread thread = new GetMainBlogsThread();
-        thread.start();
+            @Override
+            protected void onPostExecute(List<Blog> blogs) {
+                callback.onBlogsLoaded(blogs);
+            }
+        };
+        task.execute();
     }
 
 
-    /**
-     * 工作线程，解析得到数据集合，并以消息形式发送到主线程
-     */
-    class GetMainBlogsThread extends Thread {
-        @Override
-        public void run() {
-            try {
-                ArrayList<Blog> blogs = new ArrayList<Blog>();
-
-                Document doc = Jsoup.connect(Constant.BASE_URL + currentPage).get();
-                Elements e1s = doc.getElementsByClass("content-inner");
-
-                for (int i = 0; i < e1s.size(); i++) {
-                    Elements h2 = e1s.get(i).getElementsByTag("h2");
-                    String path = h2.first().getElementsByTag("a").attr("href");
-                    String title = h2.first().getElementsByTag("a").text();
-
-                    Elements d1s = e1s.get(i).getElementsByClass("post-date");
-                    String time = d1s.first().text();
-
-                    Elements c1s = e1s.get(i).getElementsByClass("post-content");
-                    String content = c1s.first().text();
-
-                    Log.i("Test", "\n地址：" + path + "\n题目：" + title + "\n时间：" + time + "\n内容：" + content);
-
-                    Blog blog = new Blog();
-                    blog.setTitle(title);
-                    blog.setTime(time);
-                    blog.setContent(content);
-                    blog.setPath(path);
-
-                    //添加数据到集合
-                    blogs.add(blog);
-                }
-
-                Log.w("Test", "data.size---" + blogs.size());
-
-                //发消息
-                Message m = Message.obtain();
-                m.what = 1;
-                m.obj = blogs;
-                handler.sendMessage(m);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public interface Call_Back {
+        void onBlogsLoaded(List<Blog> blogs);
     }
 }

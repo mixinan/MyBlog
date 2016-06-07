@@ -42,7 +42,7 @@ public class NetBroadcastReceiver extends BroadcastReceiver {
         } else {
             if (a instanceof MainActivity) {      //如果是首页
                 if (tvEmpty.getVisibility() == View.VISIBLE) {   //如果数据为空，加载数据
-                    tvNoNet.setText("正在加载数据");
+                    tvEmpty.append("\n\n正在加载");
                     MainActivity activity = (MainActivity) a;
                     activity.initData(1);
                 }

@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.entity.Blog;
 import cc.guoxingnan.myblog.ui.BlogDetailActivity;
-import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.ui.MainActivity;
 import cc.guoxingnan.myblog.util.NetUtil;
 import cc.guoxingnan.myblog.util.ToastUtil;
@@ -22,9 +22,9 @@ import cc.guoxingnan.myblog.util.ToastUtil;
  */
 public class BlogListAdapter extends RecyclerView.Adapter<BlogListAdapter.MyViewHolder>{
     private Context context;
-    private ArrayList<Blog> data;
+    private List<Blog> data;
 
-    public BlogListAdapter(Context context, ArrayList<Blog> data) {
+    public BlogListAdapter(Context context, List<Blog> data) {
         this.context = context;
         this.data = data;
     }

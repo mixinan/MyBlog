@@ -11,7 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import cc.guoxingnan.myblog.App;
 import cc.guoxingnan.myblog.R;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private RecyclerView.LayoutManager layoutManager;
     private BlogListAdapter adapter;
     private BlogModule module;
-    private ArrayList<Blog> blogs;
+    private List<Blog> blogs;
     private int currentPage = 1;
 
     private NetBroadcastReceiver receiver;
@@ -77,7 +77,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      * 返回值为当前上下文对象，用它在Module层回调getDataFromModule（）方法
      */
     public void initData(int currentPage) {
-            module = new BlogModule(this, currentPage);
+        module = new BlogModule();
+        module.getBlogList(new BlogModule.Call_Back() {
+
+            @Override
+            public void onBlogsLoaded(List<Blog> blogs) {
+                setAdapter(blogs);
+            }
+        }, currentPage);
     }
 
 
@@ -98,10 +105,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         String adTitle = blogs.get(1).getTitle();
 
         if (!"广告".equals(adTitle) && !"关于".equals(adTitle)) {
-            adapter.addData(1, new Blog("广告", "2016-05-29", "广告位,待续", "http://guoxingnan.cc/ads/"));
+            adapter.addData(1, new Blog("广告", "2016-05-29", "点击查看广告", "http://guoxingnan.cc/ads/"));
             app.play_ad();
         } else if ("广告".equals(adTitle)) {
-            adapter.addData(1, new Blog("关于", "2016-05-29", "这是一个介绍页面", "http://guoxingnan.cc/about_app/"));
+            adapter.addData(1, new Blog("关于", "2016-05-29", "查看我的介绍", "http://guoxingnan.cc/about_app/"));
             adapter.removeData(2);
             app.play_ad();
         } else if ("关于".equals(adTitle)) {
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      *
      * @param data
      */
-    public void getDataFromModule(ArrayList<Blog> data) {
+    public void setAdapter(List<Blog> data) {
         //如果是首页，初始化数据
         //如果不是首页，blogs.addAll(blogs)
         if (currentPage == 1) {
@@ -189,14 +196,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     /**
      * 显示刷新动画
      */
-    public void refreshing(){
+    public void refreshing() {
         refreshLayout.setRefreshing(true);
     }
 
     /**
      * 取消刷新动画
      */
-    public void stopRefreshing(){
+    public void stopRefreshing() {
         refreshLayout.setRefreshing(false);
     }
 

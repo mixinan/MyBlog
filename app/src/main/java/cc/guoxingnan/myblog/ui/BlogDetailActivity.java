@@ -106,6 +106,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
                     finish();
                     break;
                 }
+                refreshing();
                 initData(newerPath, position--);
                 scrollToTop();
                 break;
@@ -116,6 +117,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
                     ToastUtil.showToast(this, "已经是最后一篇了，年轻人，不要太贪啊！");
                     break;
                 }
+                refreshing();
                 initData(olderPath, position + 1);
                 scrollToTop();
                 break;
