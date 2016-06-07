@@ -73,8 +73,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     /**
      * 接收到“有网”的广播以后
-     * 创建BlogModule对象，开启工作线程获取数据，发送过来并显示
-     * 返回值为当前上下文对象，用它在Module层回调getDataFromModule（）方法
+     * 创建BlogModule对象，开启异步任务获得数据，并回调
      */
     public void initData(int currentPage) {
         module = new BlogModule();
@@ -120,9 +119,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
 
     /**
-     * 在Module层回调，为确保返回值不为null
-     * 得到Module返回的数据，并显示
-     *
+     * 显示回调后得到的数据
      * @param data
      */
     public void setAdapter(List<Blog> data) {
@@ -176,11 +173,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() - lastBackTime <= 1500) {
-            finish();
+        if (refreshLayout.isRefreshing()){
+            stopRefreshing();
+        }else{
+            if (System.currentTimeMillis() - lastBackTime <= 1500) {
+                finish();
+            }
+            lastBackTime = System.currentTimeMillis();
+            ToastUtil.showToast(this, "再按一次退出");
         }
-        lastBackTime = System.currentTimeMillis();
-        ToastUtil.showToast(this, "再按一次退出");
     }
 
 
@@ -206,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void stopRefreshing() {
         refreshLayout.setRefreshing(false);
     }
+
 
 
     /*

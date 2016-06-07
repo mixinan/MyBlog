@@ -68,7 +68,6 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
     private void initData(String url, int position) {
         if (!NetUtil.haveNet(this)) {
-            ToastUtil.showToast(this, "没网了，请检查网络");
             stopRefreshing();
         } else {
             module = new BlogDetailModule(this, url, position);
