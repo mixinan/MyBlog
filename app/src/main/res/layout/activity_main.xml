@@ -1,47 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
-    <TextView
-        android:id="@+id/tvNoNet"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:gravity="center"
-        android:background="@drawable/tv_empty_bg_shape"
-        android:text="没有网络，点击重新加载  》"
-        android:textColor="#c0c0c0"
-        android:textSize="23sp"
-        android:visibility="gone"/>
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tvNoNet">
-
-        <cc.guoxingnan.myblog.view.UpRefreshRecyclerView
-            android:id="@+id/lv"
-            android:padding="3dp"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbarSize="@dimen/cardview_default_radius"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical" />
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:popupTheme="@style/AppTheme.PopupOverlay"/>
+    </android.support.design.widget.AppBarLayout>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <include layout="@layout/content_main"></include>
 
-
-        <TextView
-            android:id="@+id/tvEmpty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="万码千钧\nBlog客户端"
-            android:textColor="#88c0c0c0"
-            android:textSize="50sp" />
-
-</RelativeLayout>
+</LinearLayout>

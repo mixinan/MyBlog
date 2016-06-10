@@ -5,124 +5,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvNoNet"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:gravity="center"
-        android:background="@drawable/tv_empty_bg_shape"
-        android:text="没网了，快瞧瞧网络"
-        android:textColor="#c0c0c0"
-        android:textSize="23sp"
-        android:visibility="gone"/>
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginTop="5dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="3dp"
-        app:cardMaxElevation="6dp">
-
-        <TextView
-            android:id="@+id/tv_title"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="8dp"
-            android:background="@drawable/item_bg_selector"
-            android:textColor="@drawable/blog_item_textcolor_selector"
-            android:text="正在加载题目..."
-            android:textSize="23sp" />
-    </android.support.v7.widget.CardView>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
 
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="6dp">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="3dp"
-                app:cardMaxElevation="8dp">
-
-                <TextView
-                    android:id="@+id/tv_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="12dp"
-                    android:text="正在加载内容..."
-                    android:textSize="20sp" />
-            </android.support.v7.widget.CardView>
-        </ScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp">
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="3dp"
-            app:cardMaxElevation="8dp">
-
-            <Button
-                android:id="@+id/bt_newer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/item_bg_selector"
-                android:textColor="@drawable/blog_item_textcolor_selector"
-                android:text="下一篇" />
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="3dp"
-            app:cardMaxElevation="8dp">
-
-            <Button
-                android:id="@+id/bt_older"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/item_bg_selector"
-                android:textColor="@drawable/blog_item_textcolor_selector"
-                android:text="上一篇" />
-        </android.support.v7.widget.CardView>
-
-
-    </LinearLayout>
-
+    <include layout="@layout/content_detail"/>
 
 </LinearLayout>

@@ -7,6 +7,9 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -17,15 +20,16 @@ import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.module.BlogDetailModule;
 import cc.guoxingnan.myblog.util.NetBroadcastReceiver;
 import cc.guoxingnan.myblog.util.NetUtil;
+import cc.guoxingnan.myblog.util.ShareUtil;
 import cc.guoxingnan.myblog.util.ToastUtil;
 
 public class BlogDetailActivity extends AppCompatActivity implements View.OnClickListener, OnRefreshListener {
     private App app;
+    private Toolbar toolbar;
 
     private BlogDetailModule module;
 
     private TextView tvNoNet;
-    private TextView tvTitle;
     private TextView tvContent;
     private Button btNewer;
     private Button btOlder;
@@ -37,6 +41,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
     private String olderPath;
     private String newerPath;
+    private String currentPath;
 
     private NetBroadcastReceiver receiver;
 
@@ -62,7 +67,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     private void setListener() {
         btNewer.setOnClickListener(this);
         btOlder.setOnClickListener(this);
-        tvTitle.setOnClickListener(this);
+        toolbar.setOnClickListener(this);
         refreshLayout.setOnRefreshListener(this);
     }
 
@@ -75,7 +80,10 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initView() {
-        tvTitle = (TextView) findViewById(R.id.tv_title);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         tvNoNet = (TextView) findViewById(R.id.tvNoNet);
         tvContent = (TextView) findViewById(R.id.tv_content);
         btNewer = (Button) findViewById(R.id.bt_newer);
@@ -85,11 +93,12 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         refreshLayout.setColorSchemeResources(android.R.color.holo_blue_dark, android.R.color.holo_green_dark, android.R.color.holo_red_light);
     }
 
-    public void showData(String title, String text, String newerTitle, String newerPath, String olderTitle, String olderPath) {
+    public void showData(String title, String text, String newerTitle, String newerPath, String olderTitle, String olderPath, String currentPath) {
         this.newerPath = newerPath;
         this.olderPath = olderPath;
+        this.currentPath = currentPath;
 
-        tvTitle.setText(title);
+        getSupportActionBar().setTitle(title);
         tvContent.setText(text);
         btNewer.setText(newerTitle);
         btOlder.setText(olderTitle);
@@ -99,6 +108,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        ToastUtil.cancelToast();
         switch (v.getId()) {
             case R.id.bt_newer:
                 if (btNewer.getText().equals("首页")) {
@@ -121,12 +131,13 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
                 scrollToTop();
                 break;
 
-            case R.id.tv_title:
+            case R.id.toolbar:
                 app.play_top();
                 scrollToTop();
                 break;
         }
     }
+
 
     /**
      * scrollView滚动到顶部
@@ -143,7 +154,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onRefresh() {
-        if ("去南京路上".equals(tvTitle.getText().toString().trim())) {
+        if ("去南京路上".equals(getSupportActionBar().getTitle())) {
             ToastUtil.showToast(this, "年轻人，没数据了");
             stopRefreshing();
             return;
@@ -152,6 +163,33 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         scrollToTop();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.action_share:
+                ToastUtil.showToast(this,"点了第一个菜单");
+                break;
+            case R.id.action_copy_url:
+                ShareUtil.copyToClipboard(this,currentPath);
+                break;
+            case R.id.action_open_in_browser:
+                ToastUtil.showToast(this,"点了第3个菜单");
+                break;
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     /*
@@ -178,14 +216,14 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     /**
      * 显示刷新动画
      */
-    public void refreshing(){
+    public void refreshing() {
         refreshLayout.setRefreshing(true);
     }
 
     /**
      * 取消刷新动画
      */
-    public void stopRefreshing(){
+    public void stopRefreshing() {
         refreshLayout.setRefreshing(false);
     }
 }

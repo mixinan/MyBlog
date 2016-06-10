@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,8 +29,11 @@ import cc.guoxingnan.myblog.view.UpRefreshRecyclerView;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, UpRefreshRecyclerView.UpRefreshListener {
     private App app;
-    private TextView tvEmpty;
+    private Toolbar toolbar;
+
     private TextView tvNoNet;
+    private TextView tvEmpty;
+
     private SwipeRefreshLayout refreshLayout;
     private UpRefreshRecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -57,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         //数据为空时的布局
         tvEmpty = (TextView) findViewById(R.id.tvEmpty);
         tvNoNet = (TextView) findViewById(R.id.tvNoNet);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("万码千钧Blog");
 
         recyclerView = (UpRefreshRecyclerView) findViewById(R.id.lv);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
@@ -93,6 +103,18 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void setListener() {
         refreshLayout.setOnRefreshListener(this);
         recyclerView.setUpRefreshListener(this);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (blogs != null) {
+                    recyclerView.smoothScrollToPosition(0);
+                } else {
+                    tvEmpty.setVisibility(View.VISIBLE);
+                    tvEmpty.setText("正在加载");
+                    initData(1);
+                }
+            }
+        });
     }
 
 
@@ -101,18 +123,24 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      */
     @Override
     public void onRefresh() {
-        String adTitle = blogs.get(1).getTitle();
+        if (blogs == null) {
+            initData(1);
+        } else {
 
-        if (!"广告".equals(adTitle) && !"关于".equals(adTitle)) {
-            adapter.addData(1, new Blog("广告", "2016-05-29", "点击查看广告", "http://guoxingnan.cc/ads/"));
-            app.play_ad();
-        } else if ("广告".equals(adTitle)) {
-            adapter.addData(1, new Blog("关于", "2016-05-29", "查看我的介绍", "http://guoxingnan.cc/about_app/"));
-            adapter.removeData(2);
-            app.play_ad();
-        } else if ("关于".equals(adTitle)) {
-            adapter.removeData(1);
-            app.play_flush();
+
+            String adTitle = blogs.get(1).getTitle();
+
+            if (!"广告".equals(adTitle) && !"关于".equals(adTitle)) {
+                adapter.addData(1, new Blog("广告", "2016-05-29", "点击查看广告", "http://guoxingnan.cc/ads/"));
+                app.play_ad();
+            } else if ("广告".equals(adTitle)) {
+                adapter.addData(1, new Blog("关于", "2016-05-29", "查看我的介绍", "http://guoxingnan.cc/about_app/"));
+                adapter.removeData(2);
+                app.play_ad();
+            } else if ("关于".equals(adTitle)) {
+                adapter.removeData(1);
+                app.play_flush();
+            }
         }
         stopRefreshing();
     }
@@ -120,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     /**
      * 显示回调后得到的数据
+     *
      * @param data
      */
     public void setAdapter(List<Blog> data) {
@@ -166,6 +195,29 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.action_share_app:
+                ToastUtil.showToast(this,"点了第一个菜单");
+                break;
+            case R.id.action_about_app:
+                ToastUtil.showToast(this,"点了第2个菜单");
+                break;
+            case R.id.action_about_me:
+                ToastUtil.showToast(this,"点了第3个菜单");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * 再按一次退出
      */
@@ -173,9 +225,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onBackPressed() {
-        if (refreshLayout.isRefreshing()){
+        if (refreshLayout.isRefreshing()) {
             stopRefreshing();
-        }else{
+        } else {
             if (System.currentTimeMillis() - lastBackTime <= 1500) {
                 finish();
             }

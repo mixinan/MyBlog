@@ -28,7 +28,7 @@ public class BlogDetailModule {
                 case 2:
                     data = (String[]) msg.obj;
                     BlogDetailActivity activity = (BlogDetailActivity) context;
-                    activity.showData(data[0], data[1], data[2], data[3], data[4], data[5]);
+                    activity.showData(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
                     break;
             }
         }
@@ -64,6 +64,8 @@ public class BlogDetailModule {
                 text = text.replaceAll("-","\n\n");
 //                Log.i("Test", "text分段: " + text);
 
+                String currentPath = doc.getElementsByClass("format-bubble").first().attr("href");
+
                 /**-------上一篇，下一篇(标题，链接)-------*/
                 String olderTitle = "";
                 String olderPath = "";
@@ -86,7 +88,9 @@ public class BlogDetailModule {
                     newerPath = doc.select("a.post-nav-newer").first().attr("href");
                 }
 
-                String[] data = {title, text, newerTitle, newerPath, olderTitle, olderPath};
+
+
+                String[] data = {title, text, newerTitle, newerPath, olderTitle, olderPath, currentPath};
 
                 Message message = Message.obtain();
                 message.what = 2;
