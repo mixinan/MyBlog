@@ -51,14 +51,14 @@ public class BlogListAdapter extends RecyclerView.Adapter<BlogListAdapter.MyView
                 if (!NetUtil.haveNet(context)){
                     ToastUtil.showToast(context,"没有网络，再好的内容也打不开");
                 }else{
+                    MainActivity activity = (MainActivity) context;
                     Intent intent = new Intent();
-                    intent.setClass(context, BlogDetailActivity.class);
+                    intent.setClass(activity, BlogDetailActivity.class);
                     intent.putExtra("url", blog.getPath());
                     intent.putExtra("position", position);
-                    context.startActivity(intent);
-
-                    MainActivity activity = (MainActivity) context;
+                    activity.startActivity(intent);
                     activity.stopRefreshing();
+                    activity.overridePendingTransition(R.anim.activity_come_right, 0);
                 }
             }
         });
