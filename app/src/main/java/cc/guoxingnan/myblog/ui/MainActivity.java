@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                app.play_top();
                 if (blogs != null) {
                     recyclerView.smoothScrollToPosition(0);
                 } else {
@@ -197,22 +198,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case R.id.action_share_app:
-                ToastUtil.showToast(this,"点了第一个菜单");
+                ToastUtil.showToast(this, "点了第一个菜单");
                 break;
             case R.id.action_about_app:
-                ToastUtil.showToast(this,"点了第2个菜单");
+                ToastUtil.showToast(this, "点了第2个菜单");
                 break;
             case R.id.action_about_me:
-                ToastUtil.showToast(this,"点了第3个菜单");
+                ToastUtil.showToast(this, "点了第3个菜单");
                 break;
         }
         return super.onOptionsItemSelected(item);

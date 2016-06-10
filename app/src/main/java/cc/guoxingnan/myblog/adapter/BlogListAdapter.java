@@ -58,7 +58,6 @@ public class BlogListAdapter extends RecyclerView.Adapter<BlogListAdapter.MyView
                     intent.putExtra("position", position);
                     activity.startActivity(intent);
                     activity.stopRefreshing();
-                    activity.overridePendingTransition(R.anim.activity_come_right, 0);
                 }
             }
         });

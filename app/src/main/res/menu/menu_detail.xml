@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_share"
         android:orderInCategory="90"
-        android:title="分享"
+        android:title="分享这篇博文"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_copy_url"
@@ -15,6 +15,6 @@
     <item
         android:id="@+id/action_open_in_browser"
         android:orderInCategory="100"
-        android:title="在浏览器打开"
+        android:title="用浏览器打开"
         app:showAsAction="never" />
 </menu>

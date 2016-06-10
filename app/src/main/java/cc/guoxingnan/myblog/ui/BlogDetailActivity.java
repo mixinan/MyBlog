@@ -1,7 +1,9 @@
 package cc.guoxingnan.myblog.ui;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -42,6 +44,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     private String olderPath;
     private String newerPath;
     private String currentPath;
+    private String currentTitle;
 
     private NetBroadcastReceiver receiver;
 
@@ -97,6 +100,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         this.newerPath = newerPath;
         this.olderPath = olderPath;
         this.currentPath = currentPath;
+        this.currentTitle = title;
 
         getSupportActionBar().setTitle(title);
         tvContent.setText(text);
@@ -176,13 +180,15 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
         switch (id){
             case R.id.action_share:
-                ToastUtil.showToast(this,"点了第一个菜单");
+                ShareUtil.shareCurrentBlog(this,"《"+currentTitle+ "》 " + currentPath +"\n   from：万码千钧Blog");
                 break;
             case R.id.action_copy_url:
                 ShareUtil.copyToClipboard(this,currentPath);
                 break;
             case R.id.action_open_in_browser:
-                ToastUtil.showToast(this,"点了第3个菜单");
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(currentPath));
+                startActivity(intent);
                 break;
             case android.R.id.home:
                 finish();
