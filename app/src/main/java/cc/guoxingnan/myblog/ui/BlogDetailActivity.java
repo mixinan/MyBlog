@@ -180,7 +180,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
         switch (id){
             case R.id.action_share:
-                ShareUtil.shareCurrentBlog(this,"《"+currentTitle+ "》 " + currentPath +"\n   from：万码千钧Blog");
+                ShareUtil.shareCurrentBlog(this,"万码千钧 《"+currentTitle+ "》\n" + currentPath);
                 break;
             case R.id.action_copy_url:
                 ShareUtil.copyToClipboard(this,currentPath);

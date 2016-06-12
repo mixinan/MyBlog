@@ -9,8 +9,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -149,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     /**
      * 显示回调后得到的数据
-     *
      * @param data
      */
     public void setAdapter(List<Blog> data) {
@@ -196,28 +193,31 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        switch (id) {
+//            case R.id.action_share_app:
+//                ToastUtil.showToast(this, "点了第一个菜单");
+//                break;
+//            case R.id.action_about_app:
+//                ToastUtil.showToast(this, "点了第2个菜单");
+//                break;
+//            case R.id.action_about_me:
+//                ToastUtil.showToast(this, "点了第3个菜单");
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_share_app:
-                ToastUtil.showToast(this, "点了第一个菜单");
-                break;
-            case R.id.action_about_app:
-                ToastUtil.showToast(this, "点了第2个菜单");
-                break;
-            case R.id.action_about_me:
-                ToastUtil.showToast(this, "点了第3个菜单");
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
+
 
     /**
      * 再按一次退出
