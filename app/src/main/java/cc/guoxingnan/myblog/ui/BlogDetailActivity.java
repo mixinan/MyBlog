@@ -38,7 +38,10 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     private ScrollView scrollView;
     private SwipeRefreshLayout refreshLayout;
 
+    //以下四项，是从首页传过来的数据
     private String url;
+    private String title;
+    private String text;
     private int position;
 
     private String olderPath;
@@ -58,6 +61,8 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         app = (App) getApplication();
 
         url = getIntent().getExtras().getString("url", "unknow");
+        title = getIntent().getExtras().getString("title", "unknow");
+        text = getIntent().getExtras().getString("text", "unknow");
         position = getIntent().getExtras().getInt("position", -1);
 
         initView();
@@ -94,6 +99,10 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
         refreshLayout.setColorSchemeResources(android.R.color.holo_blue_dark, android.R.color.holo_green_dark, android.R.color.holo_red_light);
+
+        //先设置为：从首页传来的内容
+        getSupportActionBar().setTitle(title);
+        tvContent.setText(text);
     }
 
     public void showData(String title, String text, String newerTitle, String newerPath, String olderTitle, String olderPath, String currentPath) {
@@ -103,7 +112,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         this.currentTitle = title;
 
         getSupportActionBar().setTitle(title);
-        tvContent.setText(text);
+        tvContent.setText(text);      //设置为解析网页得到的完整内容
         btNewer.setText(newerTitle);
         btOlder.setText(olderTitle);
         app.play_flush();

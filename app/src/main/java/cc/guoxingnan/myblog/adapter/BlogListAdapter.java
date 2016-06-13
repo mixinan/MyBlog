@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import cc.guoxingnan.myblog.ui.BlogDetailActivity;
 import cc.guoxingnan.myblog.ui.MainActivity;
 import cc.guoxingnan.myblog.util.NetUtil;
 import cc.guoxingnan.myblog.util.ToastUtil;
+
+import static android.view.animation.RotateAnimation.*;
 
 /**
  * Created by mixinan on 2016/5/29.
@@ -37,7 +40,7 @@ public class BlogListAdapter extends RecyclerView.Adapter<BlogListAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         final Blog blog = data.get(position);
 
@@ -55,10 +58,22 @@ public class BlogListAdapter extends RecyclerView.Adapter<BlogListAdapter.MyView
                     Intent intent = new Intent();
                     intent.setClass(activity, BlogDetailActivity.class);
                     intent.putExtra("url", blog.getPath());
+                    intent.putExtra("title",blog.getTitle());
+                    intent.putExtra("text",blog.getContent());
                     intent.putExtra("position", position);
                     activity.startActivity(intent);
                     activity.stopRefreshing();
                 }
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                RotateAnimation anim = new RotateAnimation(0f, 360f, RELATIVE_TO_SELF, 0.5F, RELATIVE_TO_SELF, 0.5F);
+                anim.setDuration(500);
+                holder.itemView.startAnimation(anim);
+                return true;
             }
         });
     }

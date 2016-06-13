@@ -1,6 +1,7 @@
 package cc.guoxingnan.myblog;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
@@ -12,6 +13,8 @@ import java.util.HashMap;
 public class App extends Application {
     public SoundPool pool;
     private HashMap<Integer, Integer> soundMap;
+    //是否开启声音
+    private boolean haveSound;
 
     @Override
     public void onCreate() {
@@ -28,16 +31,51 @@ public class App extends Application {
     }
 
     public void play_flush() {
-        pool.play(soundMap.get(1), 1, 1, 0, 0, 1);
+        if (haveSound) {
+            pool.play(soundMap.get(1), 1, 1, 0, 0, 1);
+        } else {
+            return;
+        }
     }
 
     public void play_ad() {
-        pool.play(soundMap.get(2), 1, 1, 0, 0, 1);
+        if (haveSound) {
+            pool.play(soundMap.get(2), 1, 1, 0, 0, 1);
+        } else {
+            return;
+        }
     }
 
     public void play_top() {
-        pool.play(soundMap.get(3), 1, 1, 0, 0, 1);
+        if (haveSound) {
+            pool.play(soundMap.get(3), 1, 1, 0, 0, 1);
+        } else {
+            return;
+        }
     }
 
+    public void openSound(){
+        haveSound = true;
+        saveSoundState(haveSound);
+    }
+
+
+    public void closeSound(){
+        haveSound = false;
+        saveSoundState(haveSound);
+    }
+
+
+    private void saveSoundState(boolean haveSound) {
+        SharedPreferences preferences = getSharedPreferences("sound",MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("soundState", haveSound);
+        editor.commit();
+    }
+
+    public boolean getSoundState() {
+        SharedPreferences preferences = getSharedPreferences("sound", MODE_PRIVATE);
+        return preferences.getBoolean("soundState",false);
+    }
 
 }

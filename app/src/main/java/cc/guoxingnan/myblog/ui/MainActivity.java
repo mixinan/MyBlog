@@ -1,5 +1,6 @@
 package cc.guoxingnan.myblog.ui;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -193,28 +196,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        switch (id) {
-//            case R.id.action_share_app:
-//                ToastUtil.showToast(this, "点了第一个菜单");
-//                break;
-//            case R.id.action_about_app:
-//                ToastUtil.showToast(this, "点了第2个菜单");
-//                break;
-//            case R.id.action_about_me:
-//                ToastUtil.showToast(this, "点了第3个菜单");
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_setting:
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

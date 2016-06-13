@@ -3,18 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/action_share_app"
+        android:id="@+id/action_setting"
         android:orderInCategory="90"
-        android:title="分享"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_about_app"
-        android:orderInCategory="100"
-        android:title="关于APP"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_about_me"
-        android:orderInCategory="100"
-        android:title="关于我"
+        android:title="设置"
         app:showAsAction="never" />
 </menu>
