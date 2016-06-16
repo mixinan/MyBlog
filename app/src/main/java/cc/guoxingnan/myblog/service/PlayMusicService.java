@@ -23,8 +23,6 @@ public class PlayMusicService extends Service {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
-                Intent i = new Intent("ACTION_START_PLAY");
-                sendBroadcast(i);
             }
         });
         thread = new WorkThread();
@@ -77,6 +75,10 @@ public class PlayMusicService extends Service {
             player.pause();
             player.release();
             player = null;
+        }
+
+        public boolean isPlaying(){
+            return player.isPlaying();
         }
 
         public void playMusic(String url) {

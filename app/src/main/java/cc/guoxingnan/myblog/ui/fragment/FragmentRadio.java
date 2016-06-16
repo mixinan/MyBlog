@@ -114,7 +114,20 @@ public class FragmentRadio extends Fragment {
         rbPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                musicBinder.playOrPause();
+                    if ("万码千钧Blog".equals(tvCurrentTitle.getText())){
+                        Radio r = radios.get(0);
+                        musicBinder.playMusic(r.getUrl());
+                        tvCurrentTitle.setText(r.getName());
+                    }else {
+                        musicBinder.playOrPause();
+                    }
+            }
+        });
+
+        tvCurrentTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.smoothScrollToPosition(currentMusicPosition);
             }
         });
     }
@@ -123,7 +136,6 @@ public class FragmentRadio extends Fragment {
         receiver = new UpDateMusicInfoReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction("ACTION_UPDATE_PROGRESS");
-        filter.addAction("ACTION_START_PLAY");
         getActivity().registerReceiver(receiver, filter);
     }
 
@@ -196,6 +208,7 @@ public class FragmentRadio extends Fragment {
         rbPlay = (CheckBox) view.findViewById(R.id.rbPlay);
 
         seekBar.setProgress(0);
+        tvCurrentTitle.setText("万码千钧Blog");
     }
 
     @Override
@@ -217,6 +230,9 @@ public class FragmentRadio extends Fragment {
                 seekBar.setMax(total);
                 seekBar.setProgress(current);
                 tvLastTime.setText(NumberUtil.durationTimeFormat(total - current));
+                if (tvLastTime.getText().equals("00:00")){
+                    rbPlay.setChecked(false);
+                }
             }
         }
     }
