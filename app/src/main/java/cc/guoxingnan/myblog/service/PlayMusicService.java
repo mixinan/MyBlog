@@ -14,6 +14,7 @@ import java.io.IOException;
 public class PlayMusicService extends Service {
     private MediaPlayer player;
     private boolean isLoop = true;
+    private Thread thread;
 
     @Override
     public void onCreate() {
@@ -26,7 +27,8 @@ public class PlayMusicService extends Service {
                 sendBroadcast(i);
             }
         });
-        new WorkThread().start();
+        thread = new WorkThread();
+        thread.start();
     }
 
     @Override
@@ -44,12 +46,13 @@ public class PlayMusicService extends Service {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                if (player.isPlaying()) {
-                    Intent i = new Intent("ACTION_UPDATE_PROGRESS");
-                    i.putExtra("current", player.getCurrentPosition());
-                    i.putExtra("total", player.getDuration());
-                    sendBroadcast(i);
+                if (player != null) {
+                    if (player.isPlaying()) {
+                        Intent i = new Intent("ACTION_UPDATE_PROGRESS");
+                        i.putExtra("current", player.getCurrentPosition());
+                        i.putExtra("total", player.getDuration());
+                        sendBroadcast(i);
+                    }
                 }
             }
         }
@@ -67,6 +70,13 @@ public class PlayMusicService extends Service {
                 player.start();
             }
 
+        }
+
+        public void stop() {
+            isLoop = false;
+            player.pause();
+            player.release();
+            player = null;
         }
 
         public void playMusic(String url) {

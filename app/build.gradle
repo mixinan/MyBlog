@@ -8,8 +8,8 @@ android {
         applicationId "cc.guoxingnan.myblog"
         minSdkVersion 12
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.6"
+        versionCode 7
+        versionName "1.8"
     }
     buildTypes {
         release {

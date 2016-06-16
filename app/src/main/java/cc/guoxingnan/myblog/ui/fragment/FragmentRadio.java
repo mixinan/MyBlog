@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import cc.guoxingnan.myblog.adapter.RadioAdapter;
 import cc.guoxingnan.myblog.entity.Radio;
 import cc.guoxingnan.myblog.module.MediaModle;
 import cc.guoxingnan.myblog.service.PlayMusicService;
+import cc.guoxingnan.myblog.util.NumberUtil;
 
 public class FragmentRadio extends Fragment {
     private static FragmentRadio f;
@@ -41,12 +43,16 @@ public class FragmentRadio extends Fragment {
 
     private SeekBar seekBar;
     private TextView tvCurrentTitle;
+    private TextView tvLastTime;
     private CheckBox rbPlay;
     private List<Radio> radios;
 
     private String currentMusicTitle;
     private String currentMusicUrl;
     private int currentMusicPosition;
+
+    private int current;
+    private int total;
 
 
     public static FragmentRadio getInstance(String title) {
@@ -58,7 +64,7 @@ public class FragmentRadio extends Fragment {
         return fragment;
     }
 
-    public static FragmentRadio getInstance(){
+    public static FragmentRadio getInstance() {
         return f;
     }
 
@@ -87,8 +93,10 @@ public class FragmentRadio extends Fragment {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser){
+                if (fromUser) {
                     musicBinder.seekTo(progress);
+                    Log.i("Test", "onProgressChanged: " + progress);
+                    tvLastTime.setText(NumberUtil.durationTimeFormat(total-progress));
                 }
             }
 
@@ -116,26 +124,30 @@ public class FragmentRadio extends Fragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction("ACTION_UPDATE_PROGRESS");
         filter.addAction("ACTION_START_PLAY");
-        getActivity().registerReceiver(receiver,filter);
+        getActivity().registerReceiver(receiver, filter);
     }
 
     /**
      * 获取Adapter中点击到的数据
+     *
      * @param title
      * @param url
      * @param position
      */
-    public void getClickData(String title, String url, int position){
+    public void getClickData(String title, String url, int position) {
         this.currentMusicPosition = position;
         this.currentMusicTitle = title;
         this.currentMusicUrl = url;
 
         musicBinder.playMusic(currentMusicUrl);
         rbPlay.setChecked(true);
+        tvCurrentTitle.setText(currentMusicTitle);
+        seekBar.setProgress(0);
+        tvLastTime.setText("");
     }
 
     private void bindMusicService() {
-        Intent intent = new Intent(getActivity(),PlayMusicService.class);
+        Intent intent = new Intent(getActivity(), PlayMusicService.class);
         conn = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
@@ -148,7 +160,7 @@ public class FragmentRadio extends Fragment {
             }
         };
 
-        getActivity().bindService(intent,conn, Service.BIND_AUTO_CREATE);
+        getActivity().bindService(intent, conn, Service.BIND_AUTO_CREATE);
     }
 
 
@@ -180,30 +192,31 @@ public class FragmentRadio extends Fragment {
 
         seekBar = (SeekBar) view.findViewById(R.id.seekbar);
         tvCurrentTitle = (TextView) view.findViewById(R.id.title);
+        tvLastTime = (TextView) view.findViewById(R.id.lastTime);
         rbPlay = (CheckBox) view.findViewById(R.id.rbPlay);
+
+        seekBar.setProgress(0);
     }
 
     @Override
     public void onDestroy() {
+        musicBinder.stop();
         getActivity().unbindService(conn);
         getActivity().unregisterReceiver(receiver);
         super.onDestroy();
     }
 
 
-    private class UpDateMusicInfoReceiver extends BroadcastReceiver{
+    private class UpDateMusicInfoReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if ("ACTION_START_PLAY".equals(action)){
-                Radio radio = radios.get(currentMusicPosition);
-                tvCurrentTitle.setText(radio.getName());
-
-            }else if ("ACTION_UPDATE_PROGRESS".equals(action)){
-                int current = intent.getIntExtra("current",0);
-                int total = intent.getIntExtra("total",0);
+            if ("ACTION_UPDATE_PROGRESS".equals(action)) {
+                current = intent.getIntExtra("current", 0);
+                total = intent.getIntExtra("total", 0);
                 seekBar.setMax(total);
                 seekBar.setProgress(current);
+                tvLastTime.setText(NumberUtil.durationTimeFormat(total - current));
             }
         }
     }
