@@ -10,6 +10,9 @@ import java.util.Locale;
 public class NumberUtil {
     public static String durationTimeFormat(long haomiao){
         SimpleDateFormat sdf = new SimpleDateFormat("mm:ss", Locale.CHINA);
+        if (haomiao <= 0){
+            return "00:00";
+        }
         return sdf.format(new Date(haomiao));
     }
 

@@ -96,7 +96,7 @@ public class FragmentRadio extends Fragment {
                 if (fromUser) {
                     musicBinder.seekTo(progress);
                     Log.i("Test", "onProgressChanged: " + progress);
-                    tvLastTime.setText(NumberUtil.durationTimeFormat(total-progress));
+                    tvLastTime.setText(NumberUtil.durationTimeFormat(total-progress-5000)); //显示数据和音乐时长差5秒
                 }
             }
 
@@ -212,7 +212,7 @@ public class FragmentRadio extends Fragment {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if ("ACTION_UPDATE_PROGRESS".equals(action)) {
-                current = intent.getIntExtra("current", 0);
+                current = intent.getIntExtra("current", 0)+5000; //显示数据和音乐时长差5秒
                 total = intent.getIntExtra("total", 0);
                 seekBar.setMax(total);
                 seekBar.setProgress(current);
