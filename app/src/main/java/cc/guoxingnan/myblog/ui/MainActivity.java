@@ -209,6 +209,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             case R.id.action_setting:
                 startActivity(new Intent(MainActivity.this, SettingActivity.class));
                 break;
+            case R.id.action_video:
+                if (NetUtil.haveNet(this)) {
+                    startActivity(new Intent(MainActivity.this, MediaActivity.class));
+                }else{
+                    ToastUtil.showToast(this,"请先联网");
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,9 +1,7 @@
 package cc.guoxingnan.myblog.ui;
 
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,9 +18,9 @@ import android.widget.TextView;
 import cc.guoxingnan.myblog.App;
 import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.module.BlogDetailModule;
+import cc.guoxingnan.myblog.util.MenuUtil;
 import cc.guoxingnan.myblog.util.NetBroadcastReceiver;
 import cc.guoxingnan.myblog.util.NetUtil;
-import cc.guoxingnan.myblog.util.ShareUtil;
 import cc.guoxingnan.myblog.util.ToastUtil;
 
 public class BlogDetailActivity extends AppCompatActivity implements View.OnClickListener, OnRefreshListener {
@@ -189,15 +187,13 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
         switch (id){
             case R.id.action_share:
-                ShareUtil.shareCurrentBlog(this,"万码千钧 《"+currentTitle+ "》\n" + currentPath);
+                MenuUtil.shareText(this,"万码千钧 《"+currentTitle+ "》\n" + currentPath,"分享博文到：");
                 break;
             case R.id.action_copy_url:
-                ShareUtil.copyToClipboard(this,currentPath);
+                MenuUtil.copyToClipboard(this,currentPath);
                 break;
             case R.id.action_open_in_browser:
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(currentPath));
-                startActivity(intent);
+                MenuUtil.openInChrome(this,currentPath);
                 break;
             case android.R.id.home:
                 finish();

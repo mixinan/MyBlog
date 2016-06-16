@@ -20,7 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.BlogDetailActivity" />
-        <activity android:name=".ui.SettingActivity"></activity>
+        <activity android:name=".ui.SettingActivity" />
+        <activity android:name=".ui.MediaActivity" />
+        <activity android:name=".ui.WebViewActivity"/>
+        <service android:name=".service.PlayMusicService"/>
     </application>
 
 </manifest>
