@@ -6,6 +6,12 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 
 import java.util.HashMap;
+import java.util.List;
+
+import cc.guoxingnan.myblog.entity.Blog;
+import cc.guoxingnan.myblog.entity.Radio;
+import cc.guoxingnan.myblog.entity.Video;
+import cc.guoxingnan.myblog.modle.BlogModle;
 
 /**
  * Created by mixinan on 2016/6/3.
@@ -16,10 +22,55 @@ public class App extends Application {
     //是否开启声音
     private boolean haveSound;
 
+    private BlogModle modle;
+    private List<Blog> data;
+    private List<Radio> radios;
+    private List<Video> videos;
+
+
+    private static App app;
+
+    private int homePage = 1;
+
+    public static App getApp() {
+        return app;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        app = this;
+
         initSound();
+
+        initData(homePage);
+    }
+
+    public void initData(int currentPage) {
+        modle = new BlogModle();
+        modle.getBlogList(new BlogModle.Call_Back() {
+            @Override
+            public void onBlogsLoaded(List<Blog> blogs) {
+                App.this.data = blogs;
+            }
+        }, currentPage);
+    }
+
+    public void setData(List<Blog> data) {
+        this.data = data;
+    }
+
+    public void setDataRadios(List<Radio> data) {
+        this.radios = data;
+    }
+
+    public void setDataVideos(List<Video> data) {
+        this.videos = data;
+    }
+
+    public List<Blog> getBlogs() {
+        return data;
     }
 
     private void initSound() {
@@ -54,20 +105,20 @@ public class App extends Application {
         }
     }
 
-    public void openSound(){
+    public void openSound() {
         haveSound = true;
         saveSoundState(haveSound);
     }
 
 
-    public void closeSound(){
+    public void closeSound() {
         haveSound = false;
         saveSoundState(haveSound);
     }
 
 
     private void saveSoundState(boolean haveSound) {
-        SharedPreferences preferences = getSharedPreferences("sound",MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("sound", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("soundState", haveSound);
         editor.commit();
@@ -75,7 +126,7 @@ public class App extends Application {
 
     public boolean getSoundState() {
         SharedPreferences preferences = getSharedPreferences("sound", MODE_PRIVATE);
-        return preferences.getBoolean("soundState",false);
+        return preferences.getBoolean("soundState", false);
     }
 
 }

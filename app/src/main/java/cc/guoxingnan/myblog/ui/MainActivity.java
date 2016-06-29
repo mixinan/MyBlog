@@ -21,7 +21,7 @@ import cc.guoxingnan.myblog.App;
 import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.adapter.BlogListAdapter;
 import cc.guoxingnan.myblog.entity.Blog;
-import cc.guoxingnan.myblog.module.BlogModule;
+import cc.guoxingnan.myblog.modle.BlogModle;
 import cc.guoxingnan.myblog.util.NetBroadcastReceiver;
 import cc.guoxingnan.myblog.util.NetUtil;
 import cc.guoxingnan.myblog.util.ToastUtil;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private UpRefreshRecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private BlogListAdapter adapter;
-    private BlogModule module;
+    private BlogModle module;
     private List<Blog> blogs;
     private int currentPage = 1;
 
@@ -50,9 +50,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         app = (App) getApplication();
-        initView();
-        setListener();
+        blogs = app.getBlogs();
 
+        initView();
+        setAdapter(blogs);
+        setListener();
         registerReceiver();
     }
 
@@ -82,13 +84,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
 
+
+
     /**
      * 接收到“有网”的广播以后
      * 创建BlogModule对象，开启异步任务获得数据，并回调
      */
     public void initData(int currentPage) {
-        module = new BlogModule();
-        module.getBlogList(new BlogModule.Call_Back() {
+        module = new BlogModle();
+        module.getBlogList(new BlogModle.Call_Back() {
 
             @Override
             public void onBlogsLoaded(List<Blog> blogs) {
@@ -125,11 +129,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      */
     @Override
     public void onRefresh() {
+        if (!NetUtil.haveNet(this)){
+            ToastUtil.showToast(this,"请先联网");
+            stopRefreshing();
+            return;
+        }
         if (blogs == null) {
             initData(1);
         } else {
-
-
             String adTitle = blogs.get(1).getTitle();
 
             if (!"广告".equals(adTitle) && !"关于".equals(adTitle)) {
@@ -156,12 +163,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         //如果是首页，初始化数据
         //如果不是首页，blogs.addAll(blogs)
         if (currentPage == 1) {
-            blogs = data;
-            adapter = new BlogListAdapter(MainActivity.this, blogs);
+            this.blogs = data;
+            adapter = new BlogListAdapter(MainActivity.this, data);
             recyclerView.setAdapter(adapter);
             app.play_flush();
         } else {
             blogs.addAll(data);
+            app.setData(blogs); //存到app
             adapter.notifyDataSetChanged();
             app.play_flush();
         }

@@ -9,6 +9,10 @@ import android.net.NetworkInfo;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
+import cc.guoxingnan.myblog.App;
+import cc.guoxingnan.myblog.entity.Blog;
 import cc.guoxingnan.myblog.ui.MainActivity;
 
 /**
@@ -40,9 +44,11 @@ public class NetBroadcastReceiver extends BroadcastReceiver {
             tvNoNet.setVisibility(View.VISIBLE);
 
         } else {
+            List<Blog> data = App.getApp().getBlogs();
             if (a instanceof MainActivity) {      //如果是首页
-                if (tvEmpty.getVisibility() == View.VISIBLE) {   //如果数据为空，加载数据
-                    tvEmpty.append("\n\n正在加载");
+                if (data == null) {   //如果数据为空，加载数据
+                    tvEmpty.setVisibility(View.VISIBLE);
+                    tvEmpty.setText("正在加载");
                     MainActivity activity = (MainActivity) a;
                     activity.initData(1);
                 }

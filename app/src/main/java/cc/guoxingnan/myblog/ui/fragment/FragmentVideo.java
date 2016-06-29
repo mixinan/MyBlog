@@ -14,7 +14,7 @@ import java.util.List;
 import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.adapter.VideoAdapter;
 import cc.guoxingnan.myblog.entity.Video;
-import cc.guoxingnan.myblog.module.MediaModle;
+import cc.guoxingnan.myblog.modle.MediaModle;
 
 public class FragmentVideo extends Fragment {
     private RecyclerView recyclerView;

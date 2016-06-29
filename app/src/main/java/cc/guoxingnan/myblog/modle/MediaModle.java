@@ -1,4 +1,4 @@
-package cc.guoxingnan.myblog.module;
+package cc.guoxingnan.myblog.modle;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -64,7 +64,7 @@ public class MediaModle {
 
                         Video v = new Video(title, playTimes, publishTime, url, image, duration);
 
-                       Log.i(TAG,title+"\n"+url+"\n"+duration+"\n"+image+"\n"+playTimes+"\n"+publishTime+"\n");
+//                       Log.i(TAG,title+"\n"+url+"\n"+duration+"\n"+image+"\n"+playTimes+"\n"+publishTime+"\n");
 
                         videos.add(v);
 

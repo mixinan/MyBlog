@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import cc.guoxingnan.myblog.App;
 import cc.guoxingnan.myblog.R;
-import cc.guoxingnan.myblog.module.BlogDetailModule;
+import cc.guoxingnan.myblog.modle.BlogDetailModle;
 import cc.guoxingnan.myblog.util.MenuUtil;
 import cc.guoxingnan.myblog.util.NetBroadcastReceiver;
 import cc.guoxingnan.myblog.util.NetUtil;
@@ -27,7 +27,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
     private App app;
     private Toolbar toolbar;
 
-    private BlogDetailModule module;
+    private BlogDetailModle module;
 
     private TextView tvNoNet;
     private TextView tvContent;
@@ -81,7 +81,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         if (!NetUtil.haveNet(this)) {
             stopRefreshing();
         } else {
-            module = new BlogDetailModule(this, url, position);
+            module = new BlogDetailModle(this, url, position);
         }
     }
 

@@ -26,7 +26,7 @@ import java.util.List;
 import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.adapter.RadioAdapter;
 import cc.guoxingnan.myblog.entity.Radio;
-import cc.guoxingnan.myblog.module.MediaModle;
+import cc.guoxingnan.myblog.modle.MediaModle;
 import cc.guoxingnan.myblog.service.PlayMusicService;
 import cc.guoxingnan.myblog.util.NumberUtil;
 

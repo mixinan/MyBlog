@@ -1,7 +1,6 @@
-package cc.guoxingnan.myblog.module;
+package cc.guoxingnan.myblog.modle;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,7 +16,7 @@ import cc.guoxingnan.myblog.util.Constant;
 /**
  * Created by mixinan on 2016/5/28.
  */
-public class BlogModule {
+public class BlogModle {
 
     public void getBlogList(final Call_Back callback, final int currentPage) {
 
@@ -42,7 +41,7 @@ public class BlogModule {
                         Elements c1s = e1s.get(i).getElementsByClass("post-content");
                         String content = c1s.first().text();
 
-                        Log.i("Test", "\n地址：" + path + "\n题目：" + title + "\n时间：" + time + "\n内容：" + content);
+//                        Log.i("Test", "\n地址：" + path + "\n题目：" + title + "\n时间：" + time + "\n内容：" + content);
 
                         Blog blog = new Blog();
                         blog.setTitle(title);

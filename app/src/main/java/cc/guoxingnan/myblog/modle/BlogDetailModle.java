@@ -1,4 +1,4 @@
-package cc.guoxingnan.myblog.module;
+package cc.guoxingnan.myblog.modle;
 
 import android.content.Context;
 import android.os.Handler;
@@ -14,7 +14,7 @@ import cc.guoxingnan.myblog.ui.BlogDetailActivity;
 /**
  * Created by mixinan on 2016/5/28.
  */
-public class BlogDetailModule {
+public class BlogDetailModle {
     private Context context;
     private String url;
     private int position;
@@ -35,7 +35,7 @@ public class BlogDetailModule {
     };
 
 
-    public BlogDetailModule(Context context, String url, int position) {
+    public BlogDetailModle(Context context, String url, int position) {
         this.position = position;
         this.context = context;
         this.url = url;
