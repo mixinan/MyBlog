@@ -98,10 +98,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             public void onBlogsLoaded(List<Blog> blogs) {
                 setAdapter(blogs);
             }
-<<<<<<< HEAD
-
-=======
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
         }, currentPage);
     }
 
@@ -144,17 +140,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             String adTitle = blogs.get(1).getTitle();
 
             if (!"广告".equals(adTitle) && !"关于".equals(adTitle)) {
-<<<<<<< HEAD
                 adapter.addData(1, new Blog("广告", "2016-05-29", "点击查看广告", "http://blog.2hao.cc/2016/05/30/ad/"));
                 app.play_ad();
             } else if ("广告".equals(adTitle)) {
                 adapter.addData(1, new Blog("关于", "2016-05-29", "查看我的介绍", "http://blog.2hao.cc/2016/06/30/about/"));
-=======
-                adapter.addData(1, new Blog("广告", "2016-05-29", "点击查看广告", "http://guoxingnan.cc/ads/"));
-                app.play_ad();
-            } else if ("广告".equals(adTitle)) {
-                adapter.addData(1, new Blog("关于", "2016-05-29", "查看我的介绍", "http://guoxingnan.cc/about_app/"));
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
                 adapter.removeData(2);
                 app.play_ad();
             } else if ("关于".equals(adTitle)) {
@@ -179,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             recyclerView.setAdapter(adapter);
             app.play_flush();
         } else {
-<<<<<<< HEAD
             try {
                 blogs.addAll(data);
                 app.setData(blogs); //存到app
@@ -189,12 +177,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 e.printStackTrace();
             }
 
-=======
-            blogs.addAll(data);
-            app.setData(blogs); //存到app
-            adapter.notifyDataSetChanged();
-            app.play_flush();
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
         }
 
 //        Log.i("Test", "activity - getDataFromModule: data.size--" + blogs.size());
@@ -216,11 +198,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if (!NetUtil.haveNet(this)) {
             return;
         } else {
-<<<<<<< HEAD
             if ("早年发的微博".equals(blogs.get(blogs.size() - 1).getTitle())) {
-=======
-            if ("去南京路上".equals(blogs.get(blogs.size() - 1).getTitle())) {
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
                 ToastUtil.showToast(this, "数据已经加载完毕");
                 return;
             }

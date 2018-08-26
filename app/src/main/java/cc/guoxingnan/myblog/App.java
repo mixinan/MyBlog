@@ -48,26 +48,18 @@ public class App extends Application {
     }
 
     public void initData(int currentPage) {
-<<<<<<< HEAD
 
         modle = new BlogModle();
 
         //获取博客列表，总页数，并存储数据
-=======
-        modle = new BlogModle();
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
         modle.getBlogList(new BlogModle.Call_Back() {
             @Override
             public void onBlogsLoaded(List<Blog> blogs) {
                 App.this.data = blogs;
             }
-<<<<<<< HEAD
 
         }, currentPage);
 
-=======
-        }, currentPage);
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
     }
 
     public void setData(List<Blog> data) {
@@ -86,10 +78,6 @@ public class App extends Application {
         return data;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
     private void initSound() {
         pool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
         soundMap = new HashMap<Integer, Integer>();

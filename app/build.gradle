@@ -2,11 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-<<<<<<< HEAD
     buildToolsVersion '25.0.0'
-=======
-    buildToolsVersion "23.0.3"
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
 
     defaultConfig {
         applicationId "cc.guoxingnan.myblog"

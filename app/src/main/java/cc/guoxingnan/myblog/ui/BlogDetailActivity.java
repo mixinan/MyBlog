@@ -8,11 +8,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-<<<<<<< HEAD
 import android.text.Html;
 import android.util.Log;
-=======
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -115,11 +112,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
         this.currentTitle = title;
 
         getSupportActionBar().setTitle(title);
-<<<<<<< HEAD
         tvContent.setText(Html.fromHtml(text));      //设置为解析网页得到的完整内容
-=======
-        tvContent.setText(text);      //设置为解析网页得到的完整内容
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
         btNewer.setText(newerTitle);
         btOlder.setText(olderTitle);
         app.play_flush();
@@ -174,11 +167,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onRefresh() {
-<<<<<<< HEAD
-        if ("广告".equals(getSupportActionBar().getTitle())) {
-=======
-        if ("去南京路上".equals(getSupportActionBar().getTitle())) {
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
+        if ("早年发的微博".equals(getSupportActionBar().getTitle())) {
             ToastUtil.showToast(this, "年轻人，没数据了");
             stopRefreshing();
             return;
@@ -203,10 +192,7 @@ public class BlogDetailActivity extends AppCompatActivity implements View.OnClic
                 MenuUtil.shareText(this,"万码千钧 《"+currentTitle+ "》\n" + currentPath,"分享博文到：");
                 break;
             case R.id.action_copy_url:
-<<<<<<< HEAD
                 Log.i("share", "url: "+currentPath);
-=======
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
                 MenuUtil.copyToClipboard(this,currentPath);
                 break;
             case R.id.action_open_in_browser:

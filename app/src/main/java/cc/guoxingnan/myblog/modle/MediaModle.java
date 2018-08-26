@@ -25,10 +25,7 @@ import cc.guoxingnan.myblog.entity.Video;
 public class MediaModle {
     private String TAG = "Test";
     private String URL_VIDEO = "http://v.qq.com/vplus/565058d102222715d198c58fb86eb4dc/videos";
-<<<<<<< HEAD
     //http://www.lizhi.fm/user/2508926537254566956
-=======
->>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
     private String URL_RADIO = "http://www.lizhi.fm/api/radio_audios_iframe?s=0&l=20&flag=16&band=1583816";
 
     /**
