@@ -1,22 +1,33 @@
 package cc.guoxingnan.myblog.modle;
 
 import android.os.AsyncTask;
+<<<<<<< HEAD
 import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+=======
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+>>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 import cc.guoxingnan.myblog.App;
 import cc.guoxingnan.myblog.entity.Blog;
 import cc.guoxingnan.myblog.ui.MainActivity;
 import cc.guoxingnan.myblog.util.Constant;
 import cc.guoxingnan.myblog.util.ToastUtil;
+=======
+import cc.guoxingnan.myblog.entity.Blog;
+import cc.guoxingnan.myblog.util.Constant;
+>>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
 
 /**
  * Created by mixinan on 2016/5/28.
@@ -32,6 +43,7 @@ public class BlogModle {
                 try {
                     ArrayList<Blog> blogs = new ArrayList<Blog>();
 
+<<<<<<< HEAD
                     //   http://blog.2hao.cc/archives   第一页
                     //   http://blog.2hao.cc/archives/page/2/  第二页
 
@@ -68,21 +80,46 @@ public class BlogModle {
                         Element time_element = article.getElementsByTag("time").first();
                         String time = time_element.attr("datetime");
 
+=======
+                    Document doc = Jsoup.connect(Constant.BASE_URL + currentPage).get();
+                    Elements e1s = doc.getElementsByClass("content-inner");
+
+                    for (int i = 0; i < e1s.size(); i++) {
+                        Elements h2 = e1s.get(i).getElementsByTag("h2");
+                        String path = h2.first().getElementsByTag("a").attr("href");
+                        String title = h2.first().getElementsByTag("a").text();
+
+                        Elements d1s = e1s.get(i).getElementsByClass("post-date");
+                        String time = d1s.first().text();
+
+                        Elements c1s = e1s.get(i).getElementsByClass("post-content");
+                        String content = c1s.first().text();
+>>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
 
 //                        Log.i("Test", "\n地址：" + path + "\n题目：" + title + "\n时间：" + time + "\n内容：" + content);
 
                         Blog blog = new Blog();
+<<<<<<< HEAD
                         blog.setPath(Constant.BASE_URL+path);
                         blog.setTitle(title);
                         blog.setTime(parseTime(time));
                         blog.setContent(title);
 
                         Log.i("jsoup", "doInBackground: "+blog.toString());
+=======
+                        blog.setTitle(title);
+                        blog.setTime(time);
+                        blog.setContent(content);
+                        blog.setPath(path);
+>>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
 
                         //添加数据到集合
                         blogs.add(blog);
                     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
                     return blogs;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -102,6 +139,7 @@ public class BlogModle {
     public interface Call_Back {
         void onBlogsLoaded(List<Blog> blogs);
     }
+<<<<<<< HEAD
 
 
 
@@ -123,4 +161,6 @@ public class BlogModle {
     }
 
 
+=======
+>>>>>>> 31dc9620f58883337355084c90edf26b0a1371c9
 }
