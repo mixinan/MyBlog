@@ -21,6 +21,7 @@ import cc.guoxingnan.myblog.App;
 import cc.guoxingnan.myblog.R;
 import cc.guoxingnan.myblog.adapter.BlogListAdapter;
 import cc.guoxingnan.myblog.entity.Blog;
+import cc.guoxingnan.myblog.modle.BlogIndexPageModle;
 import cc.guoxingnan.myblog.modle.BlogModle;
 import cc.guoxingnan.myblog.util.NetBroadcastReceiver;
 import cc.guoxingnan.myblog.util.NetUtil;
@@ -39,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private UpRefreshRecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private BlogListAdapter adapter;
-    private BlogModle module;
+    private BlogIndexPageModle module;
+    private BlogIndexPageModle bIndexModule;
     private List<Blog> blogs;
     private int currentPage = 1;
 
@@ -91,8 +93,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
      * 创建BlogModule对象，开启异步任务获得数据，并回调
      */
     public void initData(int currentPage) {
-        module = new BlogModle();
-        module.getBlogList(new BlogModle.Call_Back() {
+//        module = new BlogModle();
+        module=new BlogIndexPageModle();
+        module.getBlogList(new BlogIndexPageModle.Call_Back() {
 
             @Override
             public void onBlogsLoaded(List<Blog> blogs) {

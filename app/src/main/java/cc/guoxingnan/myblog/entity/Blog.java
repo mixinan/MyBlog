@@ -45,11 +45,6 @@ public class Blog implements Parcelable{
         dest.writeString(path);
     }
 
-
-
-
-
-    
     public Blog() {
     }
 

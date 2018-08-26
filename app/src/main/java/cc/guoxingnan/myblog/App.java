@@ -11,6 +11,7 @@ import java.util.List;
 import cc.guoxingnan.myblog.entity.Blog;
 import cc.guoxingnan.myblog.entity.Radio;
 import cc.guoxingnan.myblog.entity.Video;
+import cc.guoxingnan.myblog.modle.BlogIndexPageModle;
 import cc.guoxingnan.myblog.modle.BlogModle;
 
 /**
@@ -22,7 +23,8 @@ public class App extends Application {
     //是否开启声音
     private boolean haveSound;
 
-    private BlogModle modle;
+//    private BlogModle modle;
+    private BlogIndexPageModle modle;
     private List<Blog> data;
     private List<Radio> radios;
     private List<Video> videos;
@@ -49,10 +51,11 @@ public class App extends Application {
 
     public void initData(int currentPage) {
 
-        modle = new BlogModle();
+//        modle = new BlogModle();
+        modle = new BlogIndexPageModle();
 
         //获取博客列表，总页数，并存储数据
-        modle.getBlogList(new BlogModle.Call_Back() {
+        modle.getBlogList(new BlogIndexPageModle.Call_Back() {
             @Override
             public void onBlogsLoaded(List<Blog> blogs) {
                 App.this.data = blogs;
