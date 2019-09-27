@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="cc.guoxingnan.myblog.ui.MediaActivity">
+    tools:context="cc.hao2.blog.ui.MediaActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

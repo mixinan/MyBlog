@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cc.guoxingnan.myblog.ui.fragment.FragmentRadio">
+    tools:context="cc.hao2.blog.ui.fragment.FragmentRadio">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

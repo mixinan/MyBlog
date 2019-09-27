@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/tvNoNet">
 
-            <cc.guoxingnan.myblog.view.UpRefreshRecyclerView
+            <cc.hao2.blog.view.UpRefreshRecyclerView
                 android:id="@+id/lv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -5,7 +5,7 @@ android {
     buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "cc.guoxingnan.myblog"
+        applicationId "cc.hao2.blog"
         minSdkVersion 12
         targetSdkVersion 23
         versionCode 7
